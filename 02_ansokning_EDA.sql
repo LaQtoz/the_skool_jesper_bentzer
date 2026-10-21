@@ -87,4 +87,36 @@ GROUP BY utbildningsanordnare_administr,
 ORDER BY antal_beviljade DESC;
 
 
+PROMPT
+PROMPT ===================================================
+PROMPT G 
+PROMPT =================================================== 
+SELECT Län, COUNT(*) AS Top_5_Approval_ratings
+FROM ansokning
+WHERE beslut = 'Beviljad'
+GROUP BY Län
+ORDER BY Top_5_Approval_Ratings DESC
+FETCH FIRST 5 ROWS ONLY;
+
+PROMPT
+PROMPT ===================================================
+PROMPT H 
+PROMPT ===================================================
+SELECT 
+    utbildningsområde,
+    COUNT(CASE WHEN studieform = 'Distans' THEN 1 END) AS Distans,
+    COUNT(CASE WHEN studieform = 'Bunden'  THEN 1 END) AS Bunden 
+FROM ansokning
+GROUP BY utbildningsområde;
+
+
+PROMPT
+PROMPT ===================================================
+PROMPT I 
+PROMPT ===================================================
+SELECT COUNT(*) AS AI_mention
+FROM ansokning
+WHERE utbildningsnamn LIKE '%AI%'
+
+
 EXIT
