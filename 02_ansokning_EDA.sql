@@ -31,6 +31,7 @@ PROMPT B APPROVED APPLICATIONS PER EDUCATION AREA
 PROMPT ===================================================
 SELECT utbildningsområde, COUNT(*) AS beviljade_platser_total
 FROM ansokning
+WHERE beslut = 'Beviljad'
 GROUP BY utbildningsområde
 ORDER BY beviljade_platser_total DESC;
 
