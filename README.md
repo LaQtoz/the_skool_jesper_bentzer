@@ -1,138 +1,63 @@
 # the_skool_jesper_bentzer
-
 Uppgift 1
+Vi laddar in vår XLSX tabel till ansokning så den är redo för att bli använd.
 
+BILD PÅ 01_load_ansokning.sql
+<img width="397" height="75" alt="image" src="https://github.com/user-attachments/assets/74b9daea-8b7a-42c4-bb4f-ad65420e39f5" />
 
+================================================================================================================================================================
 
+Uppgift 2
+I uppgift 2 så söker vi efter resultat I vår tabel ansokning.
+Kör man vim 02_ansokning_EDA.sql så får man ut svar på följande frågor.
+a)
+Antal ansökningar per utbildningsområde, sorterat på flest ansökningar
+b)
+Antal BEVILJADE ansökningar per utbildningsområde
+c)
+Antal AVSLAGNA ansökningar per utbildningsområde
+d)
+Antal BEVILJADE ansökningar per utbildningsnamn inom Data/IT
+e)
+Antal AVSLAGNA ansökningar per utbildningsnamn inom Data/IT
+f)
+Antal BEVILJADE ansökningar per utbildningsanordnare administrativ enhet & utbildningsnamn, inom Data/IT
+g)
+Topp 5 län efter antal beviljade ansökningar
+h)
+Andel distans och andel bundna utbildningar inom respektive utbildingsområde
+i)
+Antal utbildningar som innehåller ordet AI
 
-
+EXEMPEL BILD PÅ FÖRSTA FRÅGAN 
+<img width="521" height="123" alt="image" src="https://github.com/user-attachments/assets/ec912b21-1a16-4547-94c6-486267077a20" />
 
 ================================================================================================================================================================
 
 Uppgitft 3
+I 03_frågor.sql så hämtar vi information från vår lista för att svara på följande 4 frågor.
 
+Fråga 1
+-- Skiljer sig beviljandegraden för ansökningar mellan olika huvudmannatyper och utbildningslängder?
+-- Resultatet kan hjälpa The Skool att identifiera mönster i myndighetens beslut och ge underlag för 
+-- vidare analys inför framtida ansökningar.
 
--- Fråga 1
--- The Skool kan undersöka om beviljandegraden skiljer sig
--- mellan olika huvudmannatyper och utbildningslängder.
--- Resultatet kan hjälpa The Skool att identifiera mönster
--- i myndighetens beslut och ge underlag för vidare analys
--- inför framtida ansökningar.
+Fråga 2
+-- Vi undersöker hur skiljer sig andelen avslagna ansökningar mellan distansutbildningar och bundna utbildningar i olika län?
+-- Resultatet kan hjälpa The Skool att identifiera län och studieformer där avslagsgraden är hög, 
+-- så att företaget kan undersöka möjliga orsaker och förbättra framtida ansökningar.
 
-PROMPT
-PROMPT ===================================================
-PROMPT FRÅGA 1
-PROMPT ===================================================
-SELECT
-    huvudmannatyp,
--- Vi väljer fyra kolumer som visar olika typer av information.
--- CASE delar in utbildningarnas yh_poäng i olika grupper.
-    CASE
-        WHEN yh_poäng < 100 THEN 'Under 100 poäng'
-        WHEN yh_poäng < 200 THEN '100-199 poäng'
-        WHEN yh_poäng < 400 THEN '200-399 poäng'
-        ELSE '400 poäng eller mer'
-    END AS utbildningslängd,
--- COUNT(*) räknar antalet ansökningar inom varje grupp (Kommunal, Privat)
-    COUNT(*) AS antal_ansokningar,
-    SUM(
--- CASE ger beviljade ansökningar värdet 1 och övriga värdet 0
--- så att SUM kan räkna det totala antalet beviljade ansökningar.
-        CASE
-            WHEN beslut = 'Beviljad' THEN 1
-            ELSE 0
-        END
-    ) AS antal_beviljade,
-ROUND(
--- ROUND beräknar och avrundar andelen beviljade ansökningar i procent.
-    100.0 * SUM(
-        CASE WHEN beslut = 'Beviljad' THEN 1 ELSE 0 END
-    ) / COUNT(*),
-    2
-) AS beviljadegrad_procent
-FROM ansokning
--- Vi tar bara med ansökningar som är beviljade eller avslagna.
-WHERE beslut IN ('Beviljad', 'Avslag')
--- Vi grupperar resultaten efter huvudmannatyp och utbildningslängd.
-GROUP BY
-    huvudmannatyp,
-    CASE
-        WHEN yh_poäng < 100 THEN 'Under 100 poäng'
-        WHEN yh_poäng < 200 THEN '100-199 poäng'
-        WHEN yh_poäng < 400 THEN '200-399 poäng'
-        ELSE '400 poäng eller mer'
-    END
-ORDER BY huvudmannatyp;
+Fråga 3
+-- Hur varierar antalet sökta och beviljade utbildningsomgångar samt beviljandegraden mellan olika län och huvudmannatyper?
+-- Resultatet kan hjälpa the Skool att identifiera vilka län och huvudmannatyper som får flest utbildningsomgångar beviljade 
+-- och var det kan finnas skillnader i beviljandegrad.
 
-=============================================================================================================================================================
+Fråga 4
+-- Vilka huvudmannatyper har flest beviljade ansökningar
+-- Resultatet kan hjälpa the Skool att se vilka huvudmannatyper som står för flest beviljade ansökningar och använda 
+-- informationen som underlag för att planera framtida ansökningar.
 
--- Fråga 2
--- The Skool kan se vart applikationer blir avlsagna och vad skillnaden är mellan distans och bunden form för varje län.
+Exempel bild på Fråga 1, vi använder oss utav PROMPTS för att göra det lätt att se vad varje del ställer för fråga och ger svar på.
+Noteringar kan också hittas i varje SQL script.
+<img width="439" height="456" alt="image" src="https://github.com/user-attachments/assets/b20a20ee-23c5-4a0f-88cc-d9b8d92dea24" />
 
-PROMPT
-PROMPT ===================================================
-PROMPT FRÅGA 2
-PROMPT ===================================================
-SELECT
-Län,
-studieform,
--- vi räknar antalansökningar inom varje län och studieform för att se en skillnad mellan distans och bunden.
-COUNT(*) AS antal_ansökningar,
--- Case ger Avslagna ansökningar en värde av 1 annars 0
--- Sum summerar värdet för att räkna antal avslagna ansökningar.
-SUM(CASE WHEN beslut = 'Avslag' THEN 1 ELSE 0 END) AS antal_avslag,
--- Vi räknar ut procenten och avrundar andelen avslagna
-ROUND(SUM(CASE WHEN beslut = 'Avslag' THEN 1 ELSE 0 END) * 100 / COUNT(*), 2 ) AS avslagna_procent
-FROM ansokning
--- vi filtrerar fram ansökningar med beslutet Beviljad eller Avslag.
-WHERE beslut IN ('Beviljad', 'Avslag')
-GROUP BY län, studieform
-ORDER BY län, studieform;
-
-=============================================================================================================================================================
-
--- Fråga 3
--- Hur varierar antalet sökta och beviljade utbildningsomgångar samt beviljandegraden mellan olika län och typer av utbildningsanordnare?
-
-PROMPT
-PROMPT ===================================================
-PROMPT FRÅGA 3
-PROMPT ===================================================
-SELECT
-Län,
-huvudmannatyp,
--- Vi summerar antalet sökta och beviljade utbildiningomgångar och räknar ut skillnaden mellan sökta och beviljade för att få antalet ej beviljade omgångar och lägger dessa nummer i 3 olika listor
-SUM(SÖKTA_UTBILDNINGSOMGÅNGAR) AS Sokta_omgangar,
-SUM(BEVILJADE_UTBILDNINGSOMGÅNGAR) AS Beviljade_omgangar,
-SUM(SÖKTA_UTBILDNINGSOMGÅNGAR)
-- SUM(BEVILJADE_UTBILDNINGSOMGÅNGAR) AS Ej_beviljade_omgangar,
--- Vi avrundar och delar på beviljade och sökta utbildinginsomgångar och räknar ut % utav dom.
-ROUND(
-100 * SUM(BEVILJADE_UTBILDNINGSOMGÅNGAR)
- / NULLIF(SUM(SÖKTA_UTBILDNINGSOMGÅNGAR), 0),
-2
-) AS Beviljandegrad_omgangar
-FROM ansokning
-GROUP BY
-Län,
-Huvudmannatyp
-ORDER BY
-Län,
-Huvudmannatyp;
-
-=============================================================================================================================================================
-
--- Fråga 4
--- Frågan visar vilka huvudmannatyper som har lfest beviljade ansökningar. Det gör det möjligt att jämföra olika typer av utbildningsanornare.
-
-PROMPT
-PROMPT ===================================================
-PROMPT FRÅGA 4
-PROMPT ===================================================
-SELECT Huvudmannatyp, COUNT(*) AS antal_ansokningar
-FROM ansokning
-WHERE beslut = 'Beviljad'
-GROUP BY huvudmannatyp
-ORDER BY antal_ansokningar DESC;
-
-EXIT
