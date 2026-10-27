@@ -1,5 +1,6 @@
 # the_skool_jesper_bentzer
 Uppgift 1
+
 Vi laddar in vår XLSX tabel till ansokning så den är redo för att bli använd.
 
 BILD PÅ 01_load_ansokning.sql
@@ -9,6 +10,7 @@ BILD PÅ 01_load_ansokning.sql
 ================================================================================================================================================================
 
 Uppgift 2
+
 I uppgift 2 så söker vi efter resultat I vår tabel ansokning.
 Kör man vim 02_ansokning_EDA.sql så får man ut svar på följande frågor.
 a) Antal ansökningar per utbildningsområde, sorterat på flest ansökningar
@@ -36,6 +38,7 @@ EXEMPEL BILD PÅ FÖRSTA FRÅGAN
 ================================================================================================================================================================
 
 Uppgitft 3
+
 I 03_frågor.sql så hämtar vi information från vår lista för att svara på följande 4 frågor.
 
 Fråga 1
