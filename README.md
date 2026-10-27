@@ -3,6 +3,7 @@ Uppgift 1
 Vi laddar in vår XLSX tabel till ansokning så den är redo för att bli använd.
 
 BILD PÅ 01_load_ansokning.sql
+
 <img width="397" height="75" alt="image" src="https://github.com/user-attachments/assets/74b9daea-8b7a-42c4-bb4f-ad65420e39f5" />
 
 ================================================================================================================================================================
@@ -30,6 +31,7 @@ i)
 Antal utbildningar som innehåller ordet AI
 
 EXEMPEL BILD PÅ FÖRSTA FRÅGAN 
+
 <img width="521" height="123" alt="image" src="https://github.com/user-attachments/assets/ec912b21-1a16-4547-94c6-486267077a20" />
 
 ================================================================================================================================================================
@@ -59,5 +61,6 @@ Fråga 4
 
 Exempel bild på Fråga 1, vi använder oss utav PROMPTS för att göra det lätt att se vad varje del ställer för fråga och ger svar på.
 Noteringar kan också hittas i varje SQL script.
+
 <img width="439" height="456" alt="image" src="https://github.com/user-attachments/assets/b20a20ee-23c5-4a0f-88cc-d9b8d92dea24" />
 
