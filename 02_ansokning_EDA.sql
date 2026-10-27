@@ -1,24 +1,11 @@
-SET PAGESIZE 100
-SET LINESIZE 200
-
--- CHeck wich table we are describing
-DESC ansokning
-
--- Count the rows in the table
-Select COUNT(*)
-FROM ansokning;
-
-
-
--- Display the first 20 rows
-SELECT *
-FROM ansokning
-FETCH FIRST 5 ROWS ONLY;
+SET PAGESIZE 1000
+SET LINESIZE 150
 
 PROMPT
 PROMPT ===================================================
-PROMPT A APPLICATIONS PER EDUCATION AREA
+PROMPT A Antal ansökningar per utbildningsområde, sorterat efter flest ansökningar.
 PROMPT ===================================================
+-- Vi räknar ut antal ansökningar per utbildningsområde och sortera så vi får flest först.
 SELECT utbildningsområde, COUNT(*) AS antal_ansökningar
 FROM ansokning
 GROUP BY utbildningsområde
@@ -27,8 +14,9 @@ ORDER BY antal_ansökningar DESC;
 
 PROMPT
 PROMPT ===================================================
-PROMPT B APPROVED APPLICATIONS PER EDUCATION AREA
+PROMPT B Antal Beviljade ansökningar per utbildningsområde.
 PROMPT ===================================================
+-- Vi räknar ut hur många som vart Beviljade inom varje utbildningsområde.
 SELECT utbildningsområde, COUNT(*) AS beviljade_platser_total
 FROM ansokning
 WHERE beslut = 'Beviljad'
@@ -38,8 +26,9 @@ ORDER BY beviljade_platser_total DESC;
 
 PROMPT
 PROMPT ===================================================
-PROMPT C DISAPROVED APPLICATIONS PER EDUCATION AREA
+PROMPT C Antal Avslagna ansökningar per utbildningsområde.
 PROMPT ===================================================
+-- Vi räknar ut hur många som fick Avlsag inom de olika utbildningsområderna.
 SELECT utbildningsområde, COUNT(*) AS antal_avslagna
 FROM ansokning
 WHERE beslut = 'Avslag'
@@ -49,8 +38,9 @@ ORDER BY antal_avslagna DESC;
 
 PROMPT
 PROMPT ===================================================
-PROMPT D APPROVED APPLICATIONS PER EDUCATIONNAMES IN Data/IT 
+PROMPT D Antal Beviljade ansöknginar per utbildningsnamn inom Data/it.
 PROMPT ===================================================
+-- Vi räknar ut hur många som vart Baviljade inom alla olika utbildningar inom Data/IT.
 SELECT utbildningsnamn, COUNT(*) AS approved_applications_total
 FROM ansokning
 WHERE beslut = 'Beviljad'
@@ -62,8 +52,9 @@ ORDER BY approved_applications_total DESC;
 
 PROMPT
 PROMPT ===================================================
-PROMPT E DISAPROVED APPLICATIONS PER EDUCATIONNAME IN Data/IT
+PROMPT E Antal Avslagna ansöknginar per utbildningsnamn inom Data/it.
 PROMPT ===================================================
+-- Vi räknar ut hur många som fick Avslag inom alla olika utbildningar inom Data/IT.
 SELECT utbildningsnamn, COUNT(*) AS disaproved_applications_total
 FROM ansokning
 WHERE beslut = 'Avslag'
@@ -74,8 +65,9 @@ ORDER BY disaproved_applications_total DESC;
 
 PROMPT
 PROMPT ===================================================
-PROMPT F 
+PROMPT F Antal beviljade ansökningar per utbildningsanordnare administrativ enhet & utbildningsnamn, inom Data/IT.
 PROMPT ===================================================
+-- Vi räknar inom Utbildningsanordnare_adminsitr och utbildningsnamn där besluten är Beviljade och utbildningsområdet är Data/IT.
 SELECT
     utbildningsanordnare_administr,     
     utbildningsnamn,
@@ -90,34 +82,41 @@ ORDER BY antal_beviljade DESC;
 
 PROMPT
 PROMPT ===================================================
-PROMPT G 
+PROMPT G Topp 5 län efter antal beviljade ansökningar.
 PROMPT =================================================== 
-SELECT Län, COUNT(*) AS Top_5_Approval_ratings
+-- Vi räknar inom Län efter de som har flest Beviljade beslut, och exkluderar <> Flera Kommuner och visar top 5 från den listan.
+SELECT Län, COUNT(*) AS Top_5_Beviljade
 FROM ansokning
 WHERE beslut = 'Beviljad'
+    AND Län <> 'Flera kommuner'
 GROUP BY Län
-ORDER BY Top_5_Approval_Ratings DESC
+ORDER BY Top_5_Beviljade DESC
 FETCH FIRST 5 ROWS ONLY;
 
 PROMPT
 PROMPT ===================================================
-PROMPT H 
+PROMPT H Andel distans och andel bundna utbildningar inom prespektive utbildningsområde.
 PROMPT ===================================================
+-- Vi räknar antalet ansökningar med studieformen Distans och Bunden
+-- * 100.0 / count(*) räknar ut det som procent.
 SELECT 
     utbildningsområde,
-    COUNT(CASE WHEN studieform = 'Distans' THEN 1 END) AS Distans,
-    COUNT(CASE WHEN studieform = 'Bunden'  THEN 1 END) AS Bunden 
+    COUNT(CASE WHEN studieform = 'Distans' THEN 1 END)
+    * 100.0 / COUNT(*), 2 ) AS andel_distans,
+    COUNT(CASE WHEN studieform = 'Bunden'  THEN 1 END) 
+    * 100.0 / COUN(*), 2 ) AS andel_bunden
 FROM ansokning
 GROUP BY utbildningsområde;
 
 
 PROMPT
 PROMPT ===================================================
-PROMPT I 
+PROMPT I Antal utbildningar som innehåller ordet AI.
 PROMPT ===================================================
-SELECT COUNT(*) AS AI_mention
+-- Vi räknar ut varje unikt utbildningsnamn endast 1 gång och filtrerar fram utbildningsnamn som innehåller AI
+SELECT COUNT(DISTINCT utbildningsnamn) AS antal_ai_utbildningar
 FROM ansokning
-WHERE utbildningsnamn LIKE '%AI%'
+WHERE UPPER(utbildningsnamn) LIKE '%AI%'
 
 
 EXIT
