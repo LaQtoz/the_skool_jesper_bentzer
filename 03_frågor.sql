@@ -1,13 +1,9 @@
--- Fråga 1
--- The Skool kan undersöka om beviljandegraden skiljer sig
--- mellan olika huvudmannatyper och utbildningslängder.
--- Resultatet kan hjälpa The Skool att identifiera mönster
--- i myndighetens beslut och ge underlag för vidare analys
--- inför framtida ansökningar.
+SET PAGESIZE 100
+SET LINESIZE 200
 
 PROMPT
 PROMPT ===================================================
-PROMPT FRÅGA 1
+PROMPT FRÅGA 1 BEVILJANDEGRAD PER HUVUDMANNATYP OCH UTBILDNINGSLÄNGD
 PROMPT ===================================================
 SELECT
     huvudmannatyp,
@@ -52,12 +48,9 @@ ORDER BY huvudmannatyp;
 
 
 
--- Fråga 2
--- The Skool kan se vart applikationer blir avlsagna och vad skillnaden är mellan distans och bunden form för varje län.
-
 PROMPT
 PROMPT ===================================================
-PROMPT FRÅGA 2
+PROMPT FRÅGA 2 AVSLAG PER LÄN OCH STUDIEFORM
 PROMPT ===================================================
 SELECT
 Län,
@@ -77,12 +70,9 @@ ORDER BY län, studieform;
 
 
 
--- Fråga 3
--- Hur varierar antalet sökta och beviljade utbildningsomgångar samt beviljandegraden mellan olika län och typer av utbildningsanordnare?
-
 PROMPT
 PROMPT ===================================================
-PROMPT FRÅGA 3
+PROMPT FRÅGA 3 SÖKTA OCH BEVILJADE UTBILDNINGSOMGÅNGAR PER LÄN OCH HUVUDMANNATYP
 PROMPT ===================================================
 SELECT
 Län,
@@ -108,12 +98,9 @@ Huvudmannatyp;
 
 
 
--- Fråga 4
--- Frågan visar vilka huvudmannatyper som har lfest beviljade ansökningar. Det gör det möjligt att jämföra olika typer av utbildningsanornare.
-
 PROMPT
 PROMPT ===================================================
-PROMPT FRÅGA 4
+PROMPT FRÅGA 4 ANTAL BEVILJADE ANSÖKNINGAR PER HUVUDMANNATYP
 PROMPT ===================================================
 SELECT Huvudmannatyp, COUNT(*) AS antal_ansokningar
 FROM ansokning

@@ -101,10 +101,12 @@ PROMPT ===================================================
 -- * 100.0 / count(*) räknar ut det som procent.
 SELECT 
     utbildningsområde,
+ROUND(
     COUNT(CASE WHEN studieform = 'Distans' THEN 1 END)
     * 100.0 / COUNT(*), 2 ) AS andel_distans,
+ROUND(
     COUNT(CASE WHEN studieform = 'Bunden'  THEN 1 END) 
-    * 100.0 / COUN(*), 2 ) AS andel_bunden
+    * 100.0 / COUNT(*), 2 ) AS andel_bunden
 FROM ansokning
 GROUP BY utbildningsområde;
 
@@ -117,6 +119,7 @@ PROMPT ===================================================
 SELECT COUNT(DISTINCT utbildningsnamn) AS antal_ai_utbildningar
 FROM ansokning
 WHERE UPPER(utbildningsnamn) LIKE '%AI%'
+ORDER BY utbildningsnamn;
 
 
 EXIT
