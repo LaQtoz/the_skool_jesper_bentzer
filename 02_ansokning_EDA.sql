@@ -1,5 +1,6 @@
-SET PAGESIZE 1000
-SET LINESIZE 150
+SET PAUSE OFF
+SET PAGESIZE 50000
+SET LINESIZE 200
 
 PROMPT
 PROMPT ===================================================
@@ -118,8 +119,6 @@ PROMPT ===================================================
 -- Vi räknar ut varje unikt utbildningsnamn endast 1 gång och filtrerar fram utbildningsnamn som innehåller AI
 SELECT COUNT(DISTINCT utbildningsnamn) AS antal_ai_utbildningar
 FROM ansokning
-WHERE UPPER(utbildningsnamn) LIKE '%AI%'
-ORDER BY utbildningsnamn;
-
+WHERE UPPER(utbildningsnamn) LIKE '%AI%';
 
 EXIT
